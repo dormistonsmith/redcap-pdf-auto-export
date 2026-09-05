@@ -1,0 +1,107 @@
+{
+	"name": "PDF Auto Export",
+	"description": "Automatically renders supplied markup as a PDF when the supplied trigger logic evaluates as true, and saves it to the supplied File Upload field",
+	"namespace": "Unimelb\\PDFAutoExport",
+	"framework-version": 16,
+	"enable-every-page-hooks-on-system-pages": false,
+	"authors": [
+		{
+			"name": "David Ormiston-Smith",
+			"email": "davidos@unimelb.edu.au",
+			"institution": "The University of Melbourne"
+		}
+	],
+	"project-settings": [
+		{
+			"key": "instance-config",
+			"name": "<span>Configuration Instance</span>",
+			"required": false,
+			"type": "sub_settings",
+			"repeatable": true,
+			"sub_settings": [
+				{
+					"key": "section-description",
+					"name": "Instance description<br>(Optional)",
+					"required": false,
+					"type": "textarea"
+				},
+				{
+					"key": "instance-enabled",
+					"name": "Enable this instance",
+					"type": "checkbox"
+				},
+				{
+					"key": "header-trigger",
+					"name": "<b>Trigger Configuration</b><br>What should trigger the creation of the PDF?",
+					"type": "descriptive"
+				},
+				{
+					"name": "Trigger form(s)",
+					"key": "trigger-form",
+					"required": true,
+					"repeatable": true,
+					"type": "form-list"
+				},
+				{
+					"name": "Trigger condition(s) (REDCap logic syntax)<br>(Optional - leave empty to trigger every time form is saved)",
+					"key": "trigger-logic",
+					"required": false,
+					"type": "text",
+					"required": false
+				},
+				{
+					"key": "header-pdf",
+					"name": "<b>Output PDF Configuration</b>",
+					"type": "descriptive"
+				},
+				{
+					"name": "HTML markup that will be rendered as a PDF<br>(Note that <html> and <body> tags, if included, will be stripped out by REDCap)",
+					"key": "content-markup",
+					"type": "textarea",
+					"required": true
+				},
+				{
+					"name": "PDF page orientationo<br>(Defaults to portrait)",
+					"key": "pdf-page-orientation",
+					"required": true,
+					"type": "radio",
+					"choices": [
+						{ "value": "portrait", "name": "Portrait" },
+						{ "value": "landscape", "name": "Landscape" }
+					]
+				},
+				{
+					"name": "PDF page size<br>(Defaults to A4)",
+					"key": "pdf-page-size",
+					"required": true,
+					"type": "dropdown",
+					"choices": [
+						{ "value": "A4", "name": "A4" },
+						{ "value": "A5", "name": "A5" },
+						{ "value": "B5", "name": "B5" },
+						{ "value": "legal", "name": "legal" },
+						{ "value": "letter", "name": "letter" }
+					]
+				},
+				{
+					"name": "File upload field where the PDF will be saved",
+					"key": "pdf-file-field",
+					"required": true,
+					"type": "field-list",
+					"field-type": "file"
+				},
+				{
+					"name": "PDF filename prefix<br>(Optional - defaults to 'pdfexport')",
+					"key": "pdf-filename-prefix",
+					"required": false,
+					"type": "text"
+				},
+				{
+					"name": "Only create PDF if the selected file upload field is empty<br>(i.e. do not overwrite)",
+					"key": "do-not-overwrite",
+					"type": "checkbox"
+				}
+			]
+		}
+	]
+}
