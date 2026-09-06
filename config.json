@@ -61,7 +61,7 @@
 					"required": true
 				},
 				{
-					"name": "PDF page orientationo<br>(Defaults to portrait)",
+					"name": "PDF page orientation<br>(Defaults to portrait)",
 					"key": "pdf-page-orientation",
 					"required": true,
 					"type": "radio",
