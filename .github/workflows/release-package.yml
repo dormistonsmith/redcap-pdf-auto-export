@@ -28,14 +28,16 @@ jobs:
       - name: Determine package name
         id: vars
         run: |
-          echo "package_name=pdf_auto_export_${{ github.event.release.tag_name }}.zip" >> "$GITHUB_OUTPUT"
+          BASE_NAME="pdf_auto_export_${{ github.event.release.tag_name }}"
+          echo "base_name=${BASE_NAME}" >> "$GITHUB_OUTPUT"
+          echo "package_name=${BASE_NAME}.zip" >> "$GITHUB_OUTPUT"
 
       - name: Create zip archive
         run: |
-          mkdir -p /tmp/package
-          rsync -a --exclude='.git' --exclude='.github' ./ /tmp/package/
+          mkdir -p "/tmp/package/${{ steps.vars.outputs.base_name }}"
+          rsync -a --exclude='.git' --exclude='.github' ./ "/tmp/package/${{ steps.vars.outputs.base_name }}/"
           cd /tmp/package
-          zip -r "${{ github.workspace }}/${{ steps.vars.outputs.package_name }}" .
+          zip -r "${{ github.workspace }}/${{ steps.vars.outputs.package_name }}" "${{ steps.vars.outputs.base_name }}"
 
       - name: Upload release asset
         uses: softprops/action-gh-release@v2
