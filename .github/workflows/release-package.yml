@@ -1,0 +1,44 @@
+name: Build release package
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code at release tag
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.release.tag_name }}
+
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'   # match whatever REDCap/your module needs
+          tools: composer:v2
+
+      - name: Install composer dependencies (production only)
+        run: composer install --no-dev --optimize-autoloader --prefer-dist
+
+      - name: Determine package name
+        id: vars
+        run: |
+          echo "package_name=pdf_auto_export_${{ github.event.release.tag_name }}.zip" >> "$GITHUB_OUTPUT"
+
+      - name: Create zip archive
+        run: |
+          mkdir -p /tmp/package
+          rsync -a --exclude='.git' --exclude='.github' ./ /tmp/package/
+          cd /tmp/package
+          zip -r "${{ github.workspace }}/${{ steps.vars.outputs.package_name }}" .
+
+      - name: Upload release asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.event.release.tag_name }}
+          files: ${{ steps.vars.outputs.package_name }}
