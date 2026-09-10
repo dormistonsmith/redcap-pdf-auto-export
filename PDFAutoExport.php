@@ -11,7 +11,7 @@ use Dompdf\Dompdf;
 
 class PDFAutoExport extends AbstractExternalModule {
 
-	public function redcap_save_record($project_id, $record = null, $instrument, $event_id, $group_id = null, $survey_hash = null, $response_id = null, $repeat_instance = 1) {
+	public function redcap_save_record($project_id, $record, $instrument, $event_id, $group_id = null, $survey_hash = null, $response_id = null, $repeat_instance = 1) {
 
 		$all_settings = $this->getSubSettings('instance-config');
 
